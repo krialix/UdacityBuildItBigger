@@ -1,0 +1,69 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.cloud.tools.endpoints-framework-client'
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.udacity.gradle.builditbigger"
+        minSdkVersion 21
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    flavorDimensions 'mode'
+
+    productFlavors {
+        free {
+            dimension 'mode'
+            applicationIdSuffix ".free"
+            versionNameSuffix "-free"
+        }
+        paid {
+            dimension 'mode'
+            applicationIdSuffix ".paid"
+            versionNameSuffix "-paid"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+configurations.all {
+    exclude group: "com.google.code.findbugs", module: "jsr305"
+}
+
+dependencies {
+    implementation project(':and-jokes')
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+
+    endpointsServer project(path: ":server", configuration: "endpoints")
+    implementation 'com.google.api-client:google-api-client:1.23.0' // for standard java projects
+    implementation 'com.google.api-client:google-api-client-android:1.23.0' exclude module: 'httpclient'
+    // for android projects
+
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    // override play services version
+    implementation 'com.android.support:animated-vector-drawable:27.1.1'
+    implementation 'com.android.support:customtabs:27.1.1'
+    implementation 'com.android.support:support-media-compat:27.1.1'
+    implementation 'com.android.support:support-v4:27.1.1'
+
+    implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+
+    implementation 'com.google.android.gms:play-services-ads:15.0.1'
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
