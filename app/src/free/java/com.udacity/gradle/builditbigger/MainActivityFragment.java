@@ -1,5 +1,6 @@
 package com.udacity.gradle.builditbigger;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -53,7 +54,7 @@ public class MainActivityFragment extends Fragment {
                   output -> {
                     dialog.dismiss();
 
-                    return JokeDisplayActivity.start(getContext(), output);
+                    JokeDisplayActivity.start(getContext(), output);
                   })
               .execute();
         });
